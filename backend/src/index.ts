@@ -27,7 +27,11 @@ app.get("/", (c) => c.json({ service: "vendly-backend", status: "ok" }));
 app.get("/health", (c) =>
   c.json({ healthy: true, timestamp: new Date().toISOString() })
 );
-app.post("/telegram/webhook", webhookCallback(bot, "hono"));
+
+// Webhook route only in production — dev uses long-polling via bot.start()
+if (process.env.NODE_ENV === "production") {
+  app.post("/telegram/webhook", webhookCallback(bot, "hono"));
+}
 
 app.get("/api/status", (c) =>
   c.json({

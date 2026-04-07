@@ -28,10 +28,23 @@ if (!url) {
 
 async function testWithoutPayment() {
   console.log(`\n--- Test 1: Request WITHOUT payment ---`);
-  console.log(`GET ${url}\n`);
+
+  const isPost = url.includes("/inference");
+  const method = isPost ? "POST" : "GET";
+  console.log(`${method} ${url}\n`);
 
   try {
-    const res = await fetch(url);
+    const fetchOptions: RequestInit = isPost
+      ? {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: [{ role: "user", content: "test" }],
+          }),
+        }
+      : {};
+
+    const res = await fetch(url, fetchOptions);
     console.log(`Status: ${res.status} ${res.statusText}`);
 
     if (res.status === 402) {

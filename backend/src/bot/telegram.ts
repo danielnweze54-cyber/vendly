@@ -61,25 +61,33 @@ bot.on("message:text", async (ctx) => {
   const userMessage = ctx.message.text;
   const customerName = ctx.from?.first_name ?? "Cliente";
 
+  console.log(`[BOT] Message from ${customerName} (${chatId}): ${userMessage}`);
+
   try {
     const businessId = await getDemoBusinessId();
+    console.log(`[BOT] Business ID: ${businessId}`);
     const conversation = await getOrCreateConversation(
       businessId,
       chatId,
       customerName
     );
+    console.log(`[BOT] Conversation ID: ${conversation.id}`);
 
     // Save user message
     await saveMessage(conversation.id, "user", userMessage);
 
     // Load conversation history for Claude context
     const history = await getConversationHistory(conversation.id);
+    console.log(`[BOT] History length: ${history.length} messages`);
 
     // Get catalog data (via x402 catalog-service with Supabase fallback)
     const catalogData = await getCatalogData();
+    console.log(`[BOT] Catalog loaded (${catalogData.length} chars)`);
 
     // Call Claude sales agent
+    console.log(`[BOT] Calling Claude...`);
     const reply = await getAgentResponse(history, userMessage, catalogData);
+    console.log(`[BOT] Claude replied (${reply.length} chars)`);
 
     // Save assistant response
     await saveMessage(conversation.id, "assistant", reply);
@@ -95,6 +103,7 @@ bot.on("message:text", async (ctx) => {
     });
 
     await ctx.reply(reply);
+    console.log(`[BOT] Reply sent to ${customerName}`);
   } catch (error) {
     console.error("Message handler error:", error);
     await ctx.reply(
