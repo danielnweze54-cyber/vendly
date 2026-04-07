@@ -7,6 +7,7 @@ import { webhookCallback } from "grammy";
 import { env } from "./config/env.js";
 import { bot } from "./bot/telegram.js";
 import { resourceServer, routeConfig } from "./x402/server.js";
+import { inferenceRoutes } from "./services/inference.js";
 
 const app = new Hono();
 
@@ -21,17 +22,13 @@ app.use(
   })
 );
 
-// --- Health check (before x402 middleware — should be free) ---
+// --- Free routes (before x402 middleware) ---
 app.get("/", (c) => c.json({ service: "vendly-backend", status: "ok" }));
-app.get("/health", (c) => c.json({ healthy: true, timestamp: new Date().toISOString() }));
-
-// --- Telegram webhook (before x402 middleware — should be free) ---
+app.get("/health", (c) =>
+  c.json({ healthy: true, timestamp: new Date().toISOString() })
+);
 app.post("/telegram/webhook", webhookCallback(bot, "hono"));
 
-// --- x402 payment middleware (only applies to routes defined in routeConfig) ---
-app.use("*", paymentMiddleware(routeConfig, resourceServer));
-
-// --- API routes (will be expanded in Days 3-4) ---
 app.get("/api/status", (c) =>
   c.json({
     agent: "vendly",
@@ -41,11 +38,16 @@ app.get("/api/status", (c) =>
   })
 );
 
+// --- x402 payment middleware (applies to routes in routeConfig) ---
+app.use("*", paymentMiddleware(routeConfig, resourceServer));
+
+// --- x402-protected routes ---
+app.route("/api/inference", inferenceRoutes);
+
 // --- Start server ---
 const isDev = process.env.NODE_ENV !== "production";
 
 if (isDev) {
-  // Development: use long polling for Telegram (no public URL needed)
   console.log("Starting bot in long-polling mode (development)...");
   bot.start();
 }
@@ -55,6 +57,10 @@ serve({ fetch: app.fetch, port: env.PORT }, (info) => {
   console.log(`Stellar network: stellar:${env.STELLAR_NETWORK}`);
   console.log(`Agent wallet: ${env.AGENT_STELLAR_PUBLIC}`);
   console.log(`Catalog service: ${env.CATALOG_SERVICE_URL}`);
+  console.log(`\nx402-protected routes:`);
+  Object.entries(routeConfig).forEach(([route, config]) => {
+    console.log(`  ${route} — ${config.accepts.price}`);
+  });
   if (isDev) {
     console.log("\nTelegram bot running in long-polling mode");
     console.log("Send /start to your bot to test!");
