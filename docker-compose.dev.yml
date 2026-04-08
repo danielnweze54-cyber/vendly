@@ -1,0 +1,51 @@
+# Dev mode — uses volume mounts + tsx watch for hot reload
+services:
+  backend:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+      - backend_modules:/app/node_modules
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./backend/.env
+    environment:
+      - CATALOG_SERVICE_URL=http://catalog-service:8081
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - catalog-service
+    restart: unless-stopped
+
+  catalog-service:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./catalog-service:/app
+      - catalog_modules:/app/node_modules
+    ports:
+      - "8081:8081"
+    env_file:
+      - ./catalog-service/.env
+    command: sh -c "npm install && npm run dev"
+    restart: unless-stopped
+
+  frontend:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - frontend_modules:/app/node_modules
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env.local
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  backend_modules:
+  catalog_modules:
+  frontend_modules:

@@ -2,6 +2,7 @@ import { fetchWithPayment } from "../x402/client.js";
 import { supabase } from "../db/supabase.js";
 import { logTransaction, getDemoBusinessId } from "../db/supabase.js";
 import { env } from "../config/env.js";
+import { classifyPaymentError, PaymentError } from "./wallet.js";
 
 // Cached catalog string — refreshed every 5 minutes
 let _cachedCatalog: string | null = null;
@@ -20,6 +21,7 @@ interface Product {
 /**
  * Fetch products from the x402-protected catalog service.
  * Falls back to direct Supabase read if the catalog service is unreachable.
+ * Throws PaymentError for insufficient funds so the bot can notify the user.
  */
 async function fetchProductsFromCatalogService(query?: string): Promise<Product[]> {
   const url = new URL("/api/products", env.CATALOG_SERVICE_URL);
@@ -39,13 +41,34 @@ async function fetchProductsFromCatalogService(query?: string): Promise<Product[
       service: "catalog",
       endpoint: "/api/products",
       amountUsdc: 0.001,
-      stellarTxHash: "x402-auto", // actual hash is handled by facilitator
+      stellarTxHash: "x402-auto",
     });
 
     return data.products;
   } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : String(error);
-    console.warn("Catalog service unavailable, falling back to Supabase:", msg);
+    const paymentError = classifyPaymentError(error);
+
+    // Insufficient funds — bubble up so the bot can warn the user
+    if (paymentError.type === "insufficient_funds") {
+      console.error("[CATALOG] Insufficient USDC for catalog payment:", paymentError.message);
+      // Log the failed attempt
+      const businessId = await getDemoBusinessId().catch(() => "unknown");
+      if (businessId !== "unknown") {
+        await logTransaction({
+          businessId,
+          service: "catalog",
+          endpoint: "/api/products",
+          amountUsdc: 0,
+          stellarTxHash: "failed-insufficient-funds",
+        });
+      }
+      // Still fall back to Supabase so the conversation continues
+      console.warn("[CATALOG] Falling back to Supabase due to insufficient funds");
+      return fetchProductsFromSupabase(query);
+    }
+
+    // Network / other errors — silent fallback
+    console.warn("[CATALOG] Catalog service unavailable, falling back to Supabase:", paymentError.message);
     return fetchProductsFromSupabase(query);
   }
 }
@@ -54,7 +77,7 @@ async function fetchProductsFromCatalogService(query?: string): Promise<Product[
  * Fallback: read products directly from Supabase (no x402 payment).
  */
 async function fetchProductsFromSupabase(query?: string): Promise<Product[]> {
-  let request = supabase
+  const request = supabase
     .from("products")
     .select("name, description, price, currency, category, in_stock")
     .order("name");

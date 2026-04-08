@@ -2,6 +2,7 @@
 
 import WalletCard from "./components/WalletCard";
 import TxFeed from "./components/TxFeed";
+import ConversationStats from "./components/ConversationStats";
 import { useTransactionFeed } from "@/hooks/useTransactionFeed";
 
 export default function Dashboard() {
@@ -68,8 +69,11 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Transaction Feed */}
-        <TxFeed transactions={transactions} isConnected={isConnected} />
+        {/* Two-column: Conversations + Transaction Feed */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <ConversationStats />
+          <TxFeed transactions={transactions} isConnected={isConnected} />
+        </div>
       </main>
 
       {/* Footer */}

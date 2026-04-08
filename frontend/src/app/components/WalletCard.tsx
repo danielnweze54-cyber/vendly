@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { STELLAR_PUBLIC_KEY, STELLAR_NETWORK } from "@/lib/supabase";
 
+const LOW_BALANCE_THRESHOLD = 0.5;
+
 interface WalletCardProps {
   totalSpent: number;
 }
@@ -49,10 +51,13 @@ export default function WalletCard({ totalSpent }: WalletCardProps) {
     }
 
     fetchBalance();
-    // Refresh balance every 30 seconds
     const interval = setInterval(fetchBalance, 30_000);
     return () => clearInterval(interval);
   }, []);
+
+  const usdcNum = Number(usdcBalance ?? 0);
+  const isLow = usdcNum < LOW_BALANCE_THRESHOLD && usdcNum > 0;
+  const isEmpty = usdcNum === 0 && !loading && !error;
 
   const shortKey = STELLAR_PUBLIC_KEY
     ? `${STELLAR_PUBLIC_KEY.slice(0, 6)}...${STELLAR_PUBLIC_KEY.slice(-4)}`
@@ -78,9 +83,23 @@ export default function WalletCard({ totalSpent }: WalletCardProps) {
         <p className="text-white/70 text-sm">{error}</p>
       ) : (
         <>
+          {/* Low balance alert */}
+          {(isLow || isEmpty) && (
+            <div className="mb-3 px-3 py-2 bg-red-500/30 border border-red-400/50 rounded-lg">
+              <p className="text-sm font-medium">
+                {isEmpty ? "No USDC balance" : "Low USDC balance"}
+              </p>
+              <p className="text-xs opacity-80">
+                {isEmpty
+                  ? "Fund your wallet to enable x402 payments"
+                  : `Below $${LOW_BALANCE_THRESHOLD} — payments may fail soon`}
+              </p>
+            </div>
+          )}
+
           <div className="mb-4">
             <p className="text-3xl font-bold">
-              {Number(usdcBalance).toFixed(2)}{" "}
+              {usdcNum.toFixed(2)}{" "}
               <span className="text-lg font-normal opacity-80">USDC</span>
             </p>
             <p className="text-sm opacity-60 mt-1">
