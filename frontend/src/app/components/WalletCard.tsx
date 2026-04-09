@@ -102,7 +102,7 @@ export default function WalletCard({ totalSpent }: WalletCardProps) {
 
 
               {usdcNum.toFixed(2)}{" "}
-              <span className="text-lg font-normal opacity-80">USDC</span>
+              <span className="text-lg font-normal opacity-90">USDC</span>
             </p>
             <p className="text-sm opacity-70 mt-1">
               {Number(xlmBalance).toFixed(2)} XLM
