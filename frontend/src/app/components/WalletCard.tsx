@@ -64,9 +64,9 @@ export default function WalletCard({ totalSpent }: WalletCardProps) {
     : "Not configured";
 
   return (
-    <div className="bg-gradient-to-br from-violet-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg">
+    <div className="bg-gradient-to-br from-violet-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg max-w-md w-full transition hover:scale-[1.01]">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-sm font-medium opacity-80 uppercase tracking-wider">
+        <h2 className="text-sm font-semibold opacity-90 uppercase tracking-wider">
           Agent Wallet
         </h2>
         <span className="text-xs bg-white/20 px-2 py-1 rounded-full">
@@ -98,16 +98,19 @@ export default function WalletCard({ totalSpent }: WalletCardProps) {
           )}
 
           <div className="mb-4">
-            <p className="text-3xl font-bold">
+            <p className="text-3xl font-bold tracking-tight">
+
+
               {usdcNum.toFixed(2)}{" "}
-              <span className="text-lg font-normal opacity-80">USDC</span>
+              <span className="text-lg font-normal opacity-90">USDC</span>
             </p>
-            <p className="text-sm opacity-60 mt-1">
+            <p className="text-sm opacity-70 mt-1">
               {Number(xlmBalance).toFixed(2)} XLM
             </p>
           </div>
 
-          <div className="border-t border-white/20 pt-4 space-y-2">
+          <div className="border-t border-white/20 pt-4 mt-4 space-y-3">
+
             <div className="flex justify-between text-sm">
               <span className="opacity-70">Total Spent (x402)</span>
               <span className="font-semibold">
@@ -116,7 +119,7 @@ export default function WalletCard({ totalSpent }: WalletCardProps) {
             </div>
             <div className="flex justify-between text-sm">
               <span className="opacity-70">Address</span>
-              <span className="font-mono text-xs opacity-60">{shortKey}</span>
+              <span className="font-mono text-xs opacity-70 break-all">{shortKey}</span>
             </div>
           </div>
         </>
