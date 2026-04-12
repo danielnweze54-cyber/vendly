@@ -1,0 +1,39 @@
+Small businesses in Latin America lose sales every single night. A customer messages at 10 PM asking about a product, and nobody answers. By morning, they've already bought from someone else.
+
+The tools that exist don't work for these businesses. SaaS chatbots charge a hundred dollars a month, whether you get ten messages or ten thousand. There are hidden costs, usage tiers, and at the end of the month you get an invoice you can't really verify.
+
+We asked ourselves: what if there was a better model?
+
+This is Vendly. An AI sales agent that lives on Telegram and answers your customers 24/7. But here's what makes it different. You only pay for the messages it actually sends.
+
+Every time the AI thinks, that's a transaction. Every time it looks up your product catalog, that's a transaction. Each one costs a fraction of a cent, and each one is a real USDC payment on the Stellar blockchain.
+
+One AI response costs half a cent. A full conversation with a customer, about three cents. A thousand customer conversations in a month? Thirty dollars. Compare that to a human sales rep at twelve hundred a month.
+
+Setting it up takes three steps. Fund your Stellar wallet with USDC. Even five dollars gives you a thousand responses. Add your products to the catalog. And share your bot link. That's it. No setup fees, no contracts. If you stop using it, you stop paying.
+
+Let me show you how this works live. I'm going to message the Vendly bot as if I were a customer.
+
+I'm asking if they have Nike sneakers.
+
+The AI agent searched the product catalog, found the matching products, and responded with names, prices, and sizes. All in a few seconds.
+
+Now look at the dashboard. Every API call the agent just made, the catalog lookup, the AI inference, each one triggered a real micropayment via the x402 protocol on Stellar.
+
+You can see each transaction right here. The service that was called, the exact amount in USDC, and the Stellar transaction hash. Click any of these hashes and you can verify it on the blockchain. This isn't an estimate. It's cryptographic proof of what you spent.
+
+The wallet balance went down by a fraction of a cent. That's the total cost of handling that customer interaction.
+
+Let me ask a follow-up.
+
+It remembers the context, gives me the price, and even offers to check for other colors. And on the dashboard, two more transactions just appeared. The cost of this entire conversation so far is less than two cents.
+
+Under the hood, this works with the x402 protocol, an open standard that adds payments directly to HTTP. When the AI agent needs to call any service, it gets a 402 response, signs a USDC micropayment on Stellar, and retries. The payment is the request. No billing APIs, no usage tracking. Just money.
+
+Payments settle in under five seconds. Transaction fees are practically zero. And the business owner never has to touch crypto. It's all behind the scenes.
+
+Vendly scales with you. A hundred conversations costs three dollars. Ten thousand costs three hundred. And if you have a quiet month, you pay nothing.
+
+This is Vendly. AI sales agents powered by micropayments. You use it, you pay for it. Nothing more.
+
+Try the demo bot yourself. The link is right here. Built for the x402 Hackathon on Stellar.

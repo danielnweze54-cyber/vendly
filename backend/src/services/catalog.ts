@@ -104,11 +104,11 @@ async function fetchProductsFromSupabase(query?: string): Promise<Product[]> {
  */
 function formatCatalog(products: Product[]): string {
   if (products.length === 0) {
-    return "No hay productos disponibles en este momento.";
+    return "No products available at this time.";
   }
   return products
     .map((p) => {
-      const stock = p.in_stock ? "En stock" : "AGOTADO";
+      const stock = p.in_stock ? "In stock" : "OUT OF STOCK";
       return `- ${p.name} — $${p.price} ${p.currency} (${p.category}) [${stock}]\n  ${p.description}`;
     })
     .join("\n");

@@ -61,7 +61,7 @@ export async function getAgentResponse(
     // Extract text response
     const textBlock = response.content.find((block) => block.type === "text");
     if (!textBlock || textBlock.type !== "text") {
-      return "Lo siento, no pude generar una respuesta. Intenta de nuevo.";
+      return "Sorry, I couldn't generate a response. Please try again.";
     }
 
     return textBlock.text;
@@ -71,13 +71,13 @@ export async function getAgentResponse(
 
     // Provide user-friendly error messages
     if (message.includes("rate_limit")) {
-      return "Estoy recibiendo muchas consultas. Dame un momento e intenta de nuevo.";
+      return "I'm handling a lot of requests right now. Give me a moment and try again.";
     }
     if (message.includes("authentication") || message.includes("api_key")) {
       console.error("CRITICAL: Anthropic API key is invalid or missing");
-      return "Hay un problema técnico. El equipo ya fue notificado.";
+      return "There's a technical issue. The team has been notified.";
     }
 
-    return "Hubo un problema procesando tu mensaje. Intenta de nuevo en un momento.";
+    return "There was a problem processing your message. Please try again in a moment.";
   }
 }

@@ -16,12 +16,12 @@ export const bot = new Bot(env.TELEGRAM_BOT_TOKEN);
 // /start command
 bot.command("start", async (ctx) => {
   await ctx.reply(
-    "¡Hola! Soy el asistente de ventas de <b>Demo Zapatería</b>.\n\n" +
-      "Pregúntame sobre nuestros productos, precios y disponibilidad.\n\n" +
-      "Escribe cualquier mensaje para empezar. Por ejemplo:\n" +
-      '- "¿Tienen zapatillas Nike?"\n' +
-      '- "¿Cuáles son las más baratas?"\n' +
-      '- "Quiero ver todas las opciones"',
+    "Hey there! I'm the sales assistant for <b>Demo Sneaker Shop</b>.\n\n" +
+      "Ask me about our products, prices, and availability.\n\n" +
+      "Just type a message to get started. For example:\n" +
+      '- "Do you have Nike sneakers?"\n' +
+      '- "What are the cheapest options?"\n' +
+      '- "Show me everything you have"',
     { parse_mode: "HTML" }
   );
 });
@@ -29,52 +29,52 @@ bot.command("start", async (ctx) => {
 // /help command
 bot.command("help", async (ctx) => {
   await ctx.reply(
-    "<b>Comandos disponibles:</b>\n\n" +
-      "/start — Iniciar conversación\n" +
-      "/help — Ver esta ayuda\n" +
-      "/productos — Ver catálogo completo\n" +
-      "/estado — Ver estado del agente\n\n" +
-      "O simplemente escríbeme lo que buscas.",
+    "<b>Available commands:</b>\n\n" +
+      "/start — Start a conversation\n" +
+      "/help — Show this help\n" +
+      "/products — View full catalog\n" +
+      "/status — View agent status\n\n" +
+      "Or just type what you're looking for.",
     { parse_mode: "HTML" }
   );
 });
 
-// /productos command — shows full catalog
-bot.command("productos", async (ctx) => {
+// /products command — shows full catalog
+bot.command("products", async (ctx) => {
   try {
     const catalog = await getCatalogData();
     const lines = catalog
       .split("\n")
       .filter((l) => l.startsWith("- "))
       .join("\n");
-    await ctx.reply(`<b>Nuestro catálogo:</b>\n\n${lines}`, {
+    await ctx.reply(`<b>Our catalog:</b>\n\n${lines}`, {
       parse_mode: "HTML",
     });
   } catch {
     await ctx.reply(
-      "No pude cargar el catálogo en este momento. Intenta de nuevo."
+      "Couldn't load the catalog right now. Please try again."
     );
   }
 });
 
-// /estado command — shows agent wallet status
-bot.command("estado", async (ctx) => {
+// /status command — shows agent wallet status
+bot.command("status", async (ctx) => {
   try {
     const balance = await getWalletBalance();
     const statusIcon = balance.isLow ? "!!" : "OK";
     await ctx.reply(
-      `<b>Estado del agente:</b>\n\n` +
+      `<b>Agent status:</b>\n\n` +
         `USDC: ${balance.usdc.toFixed(4)} [${statusIcon}]\n` +
         `XLM: ${balance.xlm.toFixed(2)}\n` +
-        `Red: stellar:${env.STELLAR_NETWORK}\n` +
+        `Network: stellar:${env.STELLAR_NETWORK}\n` +
         `Wallet: <code>${env.AGENT_STELLAR_PUBLIC.slice(0, 8)}...${env.AGENT_STELLAR_PUBLIC.slice(-4)}</code>` +
         (balance.isLow
-          ? "\n\nSaldo bajo — algunas funciones pueden no estar disponibles."
+          ? "\n\nLow balance — some features may be unavailable."
           : ""),
       { parse_mode: "HTML" }
     );
   } catch {
-    await ctx.reply("No pude consultar el estado. Intenta de nuevo.");
+    await ctx.reply("Couldn't check the status. Please try again.");
   }
 });
 
@@ -82,7 +82,7 @@ bot.command("estado", async (ctx) => {
 bot.on("message:text", async (ctx) => {
   const chatId = ctx.chat.id;
   const userMessage = ctx.message.text;
-  const customerName = ctx.from?.first_name ?? "Cliente";
+  const customerName = ctx.from?.first_name ?? "Customer";
 
   console.log(`[BOT] Message from ${customerName} (${chatId}): ${userMessage}`);
 
@@ -137,19 +137,19 @@ bot.on("message:text", async (ctx) => {
     // Provide specific error messages based on failure type
     if (msg.includes("insufficient") || msg.includes("underfunded")) {
       await ctx.reply(
-        "Lo siento, necesito recargar mi saldo para seguir atendiendo. " +
-          "Intenta de nuevo en un momento."
+        "Sorry, I need to top up my balance to keep helping. " +
+          "Please try again in a moment."
       );
     } else if (msg.includes("rate_limit") || msg.includes("429")) {
       await ctx.reply(
-        "Estoy atendiendo muchas consultas. Dame un momento e intenta de nuevo."
+        "I'm handling a lot of requests right now. Give me a moment and try again."
       );
     } else if (msg.includes("api_key") || msg.includes("authentication")) {
       console.error("CRITICAL: API key issue");
-      await ctx.reply("Hay un problema técnico. El equipo ya fue notificado.");
+      await ctx.reply("There's a technical issue. The team has been notified.");
     } else {
       await ctx.reply(
-        "Lo siento, hubo un error. Intenta de nuevo en un momento."
+        "Sorry, something went wrong. Please try again in a moment."
       );
     }
   }

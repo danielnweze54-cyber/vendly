@@ -13,7 +13,7 @@ export async function getDemoBusinessId(): Promise<string> {
   const { data, error } = await supabase
     .from("businesses")
     .select("id")
-    .eq("name", "Demo Zapatería")
+    .eq("name", "Demo Sneaker Shop")
     .single();
 
   if (error || !data) {
