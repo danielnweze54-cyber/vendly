@@ -1,0 +1,123 @@
+---
+---
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <h1 class="hero-headline">
+        An AI Sales Rep That Costs You <span class="highlight">$0.005</span> Per Message
+      </h1>
+      <p class="hero-sub">
+        No subscriptions. No contracts. No minimums. Vendly is a 24/7 AI sales agent on Telegram — you only pay for the messages it sends. Every cent is a real transaction you can verify.
+      </p>
+      <div class="hero-counter" id="counter">
+        <span class="counter-label">Live cost</span>
+        <span class="counter-value" id="counter-value">$0.000</span>
+      </div>
+      <div class="hero-ctas">
+        <a href="https://t.me/vendly_sales_bot" class="btn btn-primary" target="_blank" rel="noopener">Try It Free</a>
+        <a href="https://vendly-rosy.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener">Watch the Money Flow</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const counterEl = document.getElementById('counter-value');
+  let value = 0;
+  setInterval(() => {
+    value += 0.005;
+    if (counterEl) {
+      counterEl.textContent = `$${value.toFixed(3)}`;
+    }
+    if (value >= 1) value = 0;
+  }, 800);
+</script>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, var(--purple-dark) 0%, var(--navy) 60%);
+    padding: 120px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-content {
+    max-width: 720px;
+  }
+
+  .hero-headline {
+    font-size: 2.75rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  @media (min-width: 768px) {
+    .hero-headline {
+      font-size: 4rem;
+    }
+  }
+
+  .highlight {
+    color: var(--green);
+  }
+
+  .hero-sub {
+    font-size: 1.2rem;
+    color: var(--gray-300);
+    line-height: 1.7;
+    margin-bottom: 32px;
+    max-width: 600px;
+  }
+
+  .hero-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 12px;
+    padding: 12px 24px;
+    margin-bottom: 40px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  .counter-label {
+    font-size: 0.85rem;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .counter-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+</style>

@@ -1,0 +1,58 @@
+---
+---
+
+<section class="tech" id="technology">
+  <div class="container">
+    <h2 class="section-headline" style="text-align:center;">How Pay-Per-Use AI Actually Works</h2>
+    <div class="tech-grid">
+      <div class="card tech-card">
+        <h3>x402 Protocol</h3>
+        <p>The x402 standard adds payments to HTTP. When your AI agent needs to think, it pays $0.005 via a standard HTTP header. No billing API, no usage tracking — the payment IS the request.</p>
+      </div>
+      <div class="card tech-card">
+        <h3>Stellar + USDC</h3>
+        <p>Payments settle in under 5 seconds on Stellar using USDC stablecoins. Transaction fees are $0.00001. Your customers never touch crypto — it's all behind the scenes.</p>
+      </div>
+      <div class="card tech-card">
+        <h3>Service-to-Service Payments</h3>
+        <p>Your AI agent pays for catalog access the same way it pays for AI inference — per request, verified on-chain. Every microservice in the stack earns and spends independently.</p>
+      </div>
+      <div class="card tech-card">
+        <h3>Open & Verifiable</h3>
+        <p>Every payment has a Stellar transaction hash. Anyone can verify it. No trust required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tech {
+    background: var(--navy);
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  @media (min-width: 768px) {
+    .tech-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .tech-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--purple-light);
+  }
+
+  .tech-card p {
+    color: var(--gray-400);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+</style>

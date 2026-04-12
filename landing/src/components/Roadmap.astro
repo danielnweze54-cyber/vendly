@@ -1,0 +1,91 @@
+---
+---
+
+<section class="roadmap" id="roadmap">
+  <div class="container">
+    <h2 class="section-headline" style="text-align:center;">Roadmap</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-marker active"></div>
+        <div class="timeline-content">
+          <h3>Now</h3>
+          <p>Telegram bot, AI sales agent, product catalog, real-time spending dashboard, x402 micropayments</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Next</h3>
+          <p>WhatsApp Business, order management, payment collection via chat, multi-business support</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>Future</h3>
+          <p>Inventory sync, conversion analytics, marketplace of specialized AI agents (sales, support, bookings), fiat on-ramp for easy wallet funding</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .roadmap {
+    background: var(--navy);
+  }
+
+  .timeline {
+    max-width: 600px;
+    margin: 48px auto 0;
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--navy-lighter);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 40px;
+  }
+
+  .timeline-item:last-child {
+    padding-bottom: 0;
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: -32px;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--navy-lighter);
+    border: 3px solid var(--navy);
+  }
+
+  .timeline-marker.active {
+    background: var(--purple);
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.3);
+  }
+
+  .timeline-content h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .timeline-content p {
+    color: var(--gray-400);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+</style>

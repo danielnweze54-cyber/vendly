@@ -1,0 +1,144 @@
+/* Global Styles */
+:root {
+  --purple: #7C3AED;
+  --purple-light: #A78BFA;
+  --purple-dark: #5B21B6;
+  --navy: #0F172A;
+  --navy-light: #1E293B;
+  --navy-lighter: #334155;
+  --white: #FFFFFF;
+  --gray-100: #F1F5F9;
+  --gray-200: #E2E8F0;
+  --gray-300: #CBD5E1;
+  --gray-400: #94A3B8;
+  --gray-500: #64748B;
+  --green: #10B981;
+  --green-light: #34D399;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--navy);
+  color: var(--white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section {
+  padding: 80px 0;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: 120px 0;
+  }
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--purple);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--purple-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--white);
+  border: 2px solid var(--gray-400);
+}
+
+.btn-secondary:hover {
+  border-color: var(--white);
+  transform: translateY(-1px);
+}
+
+/* Section headings */
+.section-headline {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+  .section-headline {
+    font-size: 2.5rem;
+  }
+}
+
+.section-subheadline {
+  font-size: 1.125rem;
+  color: var(--gray-400);
+  max-width: 640px;
+  margin-bottom: 48px;
+}
+
+/* Cost badge */
+.cost-badge {
+  display: inline-block;
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--green);
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+/* Card */
+.card {
+  background: var(--navy-light);
+  border: 1px solid var(--navy-lighter);
+  border-radius: 16px;
+  padding: 32px;
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--purple);
+}

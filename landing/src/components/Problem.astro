@@ -1,0 +1,71 @@
+---
+---
+
+<section class="problem" id="problem">
+  <div class="container">
+    <h2 class="section-headline" style="text-align:center;">You're Paying for AI You Don't Use</h2>
+    <div class="problem-grid">
+      <div class="card problem-card">
+        <div class="problem-icon">&#128176;</div>
+        <h3>Monthly Subscriptions</h3>
+        <p>Chatbot platforms charge $99-499/month. Quiet month? You still pay. Busy month? You hit limits and pay overages.</p>
+      </div>
+      <div class="card problem-card">
+        <div class="problem-icon">&#128270;</div>
+        <h3>Hidden Costs</h3>
+        <p>API keys, usage tiers, seat licenses, setup fees. You never know what you'll actually spend until the invoice arrives.</p>
+      </div>
+      <div class="card problem-card">
+        <div class="problem-icon">&#128683;</div>
+        <h3>Zero Transparency</h3>
+        <p>Where does your money go? SaaS billing is a black box. You can't verify what you paid for.</p>
+      </div>
+    </div>
+    <p class="problem-transition">What if you could see every single cent your AI agent spends — in real-time?</p>
+  </div>
+</section>
+
+<style>
+  .problem {
+    background: var(--navy);
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 48px;
+    margin-bottom: 48px;
+  }
+
+  @media (min-width: 768px) {
+    .problem-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .problem-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .problem-card p {
+    color: var(--gray-400);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .problem-icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .problem-transition {
+    text-align: center;
+    font-size: 1.25rem;
+    color: var(--purple-light);
+    font-weight: 600;
+    font-style: italic;
+  }
+</style>

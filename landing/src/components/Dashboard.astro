@@ -1,0 +1,180 @@
+---
+---
+
+<section class="dashboard" id="dashboard">
+  <div class="container">
+    <h2 class="section-headline" style="text-align:center;">
+      Real-Time Spending Dashboard — Not a Monthly Invoice
+    </h2>
+    <p class="section-subheadline" style="text-align:center; margin-left:auto; margin-right:auto;">
+      Every transaction is a real USDC payment on Stellar. Click any TX hash to verify it on the blockchain. This isn't a billing estimate — it's cryptographic proof of what you spent.
+    </p>
+
+    <div class="dashboard-preview">
+      <div class="dashboard-mock">
+        <div class="dash-header">
+          <div class="dash-title">Vendly Dashboard</div>
+          <div class="dash-balance">
+            <span class="balance-label">Wallet Balance</span>
+            <span class="balance-value">$47.82 USDC</span>
+          </div>
+        </div>
+        <div class="dash-body">
+          <div class="dash-section">
+            <h4>Recent Transactions</h4>
+            <div class="tx-row">
+              <span class="tx-type">AI Inference</span>
+              <span class="tx-amount">-$0.005</span>
+              <span class="tx-hash">0x3f8a...c21d</span>
+            </div>
+            <div class="tx-row">
+              <span class="tx-type">Catalog Query</span>
+              <span class="tx-amount">-$0.001</span>
+              <span class="tx-hash">0x7b2e...9f4a</span>
+            </div>
+            <div class="tx-row">
+              <span class="tx-type">AI Inference</span>
+              <span class="tx-amount">-$0.005</span>
+              <span class="tx-hash">0xa1c4...b8e7</span>
+            </div>
+            <div class="tx-row">
+              <span class="tx-type">Catalog Query</span>
+              <span class="tx-amount">-$0.001</span>
+              <span class="tx-hash">0xd5f9...2a1c</span>
+            </div>
+          </div>
+          <div class="dash-section">
+            <h4>Cost Breakdown</h4>
+            <div class="breakdown-row">
+              <span>AI Inferences</span>
+              <div class="bar-wrap"><div class="bar" style="width: 72%;"></div></div>
+              <span>$0.72</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Catalog Queries</span>
+              <div class="bar-wrap"><div class="bar bar-secondary" style="width: 28%;"></div></div>
+              <span>$0.28</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:40px;">
+      <a href="https://vendly-rosy.vercel.app" class="btn btn-primary" target="_blank" rel="noopener">See It Live</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .dashboard {
+    background: var(--navy);
+  }
+
+  .dashboard-preview {
+    margin-top: 48px;
+  }
+
+  .dashboard-mock {
+    background: var(--navy-light);
+    border: 1px solid var(--navy-lighter);
+    border-radius: 16px;
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--navy-lighter);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .dash-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .balance-label {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    margin-right: 8px;
+  }
+
+  .balance-value {
+    color: var(--green);
+    font-weight: 700;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  .dash-body {
+    padding: 24px;
+    display: grid;
+    gap: 32px;
+  }
+
+  .dash-section h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gray-500);
+    margin-bottom: 16px;
+  }
+
+  .tx-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+    font-size: 0.9rem;
+    align-items: center;
+  }
+
+  .tx-type {
+    color: var(--gray-300);
+  }
+
+  .tx-amount {
+    color: var(--green);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-weight: 600;
+  }
+
+  .tx-hash {
+    color: var(--gray-500);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+  }
+
+  .breakdown-row {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 0.9rem;
+    color: var(--gray-300);
+  }
+
+  .bar-wrap {
+    height: 8px;
+    background: var(--navy);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .bar {
+    height: 100%;
+    background: var(--purple);
+    border-radius: 4px;
+  }
+
+  .bar-secondary {
+    background: var(--green);
+  }
+</style>

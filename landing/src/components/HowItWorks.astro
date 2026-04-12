@@ -1,0 +1,108 @@
+---
+---
+
+<section class="howitworks" id="how-it-works">
+  <div class="container">
+    <h2 class="section-headline" style="text-align:center;">How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Fund Your Wallet</h3>
+        <p>Add USDC to your Stellar wallet. Start with $5 — that's 1,000 AI responses. Top up anytime.</p>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Connect Your Catalog</h3>
+        <p>Add your products: names, prices, descriptions. Your AI agent learns them instantly.</p>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Share Your Bot Link</h3>
+        <p>Customers message your Telegram bot. Vendly answers 24/7. You see every transaction in real-time.</p>
+      </div>
+    </div>
+    <p class="steps-note">
+      No setup fees. No monthly minimum. No commitment. If you stop using it, you stop paying. Your USDC stays in your wallet.
+    </p>
+  </div>
+</section>
+
+<style>
+  .howitworks {
+    background: var(--navy-light);
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 48px auto;
+    max-width: 800px;
+  }
+
+  @media (min-width: 768px) {
+    .steps {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 0;
+    }
+  }
+
+  .step {
+    text-align: center;
+    flex: 1;
+    padding: 0 16px;
+  }
+
+  .step-number {
+    width: 48px;
+    height: 48px;
+    background: var(--purple);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin: 0 auto 16px;
+  }
+
+  .step h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    font-size: 0.95rem;
+    color: var(--gray-400);
+    line-height: 1.6;
+  }
+
+  .step-connector {
+    width: 2px;
+    height: 32px;
+    background: var(--navy-lighter);
+  }
+
+  @media (min-width: 768px) {
+    .step-connector {
+      width: 48px;
+      height: 2px;
+      align-self: center;
+      margin-top: 24px;
+    }
+  }
+
+  .steps-note {
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 0.95rem;
+    max-width: 600px;
+    margin: 0 auto;
+    font-style: italic;
+  }
+</style>

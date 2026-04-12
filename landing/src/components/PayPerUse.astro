@@ -1,0 +1,154 @@
+---
+---
+
+<section class="payperuse" id="pricing-model">
+  <div class="container">
+    <h2 class="section-headline" style="text-align:center;">
+      Every Message Has a Price.<br />Every Price Has a Receipt.
+    </h2>
+
+    <!-- Flow diagram -->
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-label">Customer sends message</div>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step">
+        <div class="flow-label">AI thinks</div>
+        <span class="cost-badge">$0.005</span>
+        <div class="flow-tx">Stellar TX: 0.005 USDC</div>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step">
+        <div class="flow-label">Catalog lookup</div>
+        <span class="cost-badge">$0.001</span>
+        <div class="flow-tx">Stellar TX: 0.001 USDC</div>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step">
+        <div class="flow-label">Reply sent</div>
+      </div>
+    </div>
+
+    <!-- Key cost stats -->
+    <div class="cost-grid">
+      <div class="cost-stat">
+        <span class="cost-number">$0.005</span>
+        <span class="cost-desc">One AI response</span>
+      </div>
+      <div class="cost-stat">
+        <span class="cost-number">$0.001</span>
+        <span class="cost-desc">One catalog query</span>
+      </div>
+      <div class="cost-stat">
+        <span class="cost-number">$0.03</span>
+        <span class="cost-desc">Avg full conversation</span>
+      </div>
+      <div class="cost-stat">
+        <span class="cost-number">$30</span>
+        <span class="cost-desc">1,000 conversations/mo</span>
+      </div>
+    </div>
+
+    <div class="comparison-callout">
+      <p>A human sales rep costs <strong>$1,200/month</strong>. Vendly handles the same volume for <strong>$30</strong>. And it never sleeps.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .payperuse {
+    background: var(--navy-light);
+  }
+
+  .flow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 12px;
+    margin: 48px 0;
+    flex-wrap: wrap;
+  }
+
+  .flow-step {
+    background: var(--navy);
+    border: 1px solid var(--navy-lighter);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+    min-width: 140px;
+    flex: 0 1 auto;
+  }
+
+  .flow-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+
+  .flow-tx {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    margin-top: 8px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  .flow-arrow {
+    font-size: 1.5rem;
+    color: var(--purple-light);
+    align-self: center;
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .flow-arrow {
+      display: block;
+    }
+  }
+
+  .cost-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin: 48px auto;
+    max-width: 640px;
+  }
+
+  @media (min-width: 768px) {
+    .cost-grid {
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 100%;
+    }
+  }
+
+  .cost-stat {
+    text-align: center;
+  }
+
+  .cost-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--green);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  .cost-desc {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--gray-400);
+    margin-top: 4px;
+  }
+
+  .comparison-callout {
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 12px;
+    padding: 24px 32px;
+    text-align: center;
+    font-size: 1.1rem;
+    max-width: 640px;
+    margin: 0 auto;
+    color: var(--gray-200);
+  }
+</style>
