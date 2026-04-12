@@ -17,6 +17,7 @@ export function useTransactionFeed() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [totalSpent, setTotalSpent] = useState(0);
   const [isConnected, setIsConnected] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   // Fetch initial transactions
   const fetchTransactions = useCallback(async () => {
@@ -58,6 +59,8 @@ export function useTransactionFeed() {
           const newTx = payload.new as Transaction;
           setTransactions((prev) => [newTx, ...prev].slice(0, 50));
           setTotalSpent((prev) => prev + Number(newTx.amount_usdc));
+          // Signal WalletCard to refresh balance immediately
+          setRefreshTrigger((prev) => prev + 1);
         }
       )
       .subscribe((status) => {
@@ -69,5 +72,5 @@ export function useTransactionFeed() {
     };
   }, [fetchTransactions]);
 
-  return { transactions, totalSpent, isConnected };
+  return { transactions, totalSpent, isConnected, refreshTrigger };
 }

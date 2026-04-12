@@ -1,59 +1,70 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { STELLAR_PUBLIC_KEY, STELLAR_NETWORK } from "@/lib/supabase";
 
 const LOW_BALANCE_THRESHOLD = 0.5;
 
 interface WalletCardProps {
   totalSpent: number;
+  refreshTrigger?: number;
 }
 
-export default function WalletCard({ totalSpent }: WalletCardProps) {
+export default function WalletCard({ totalSpent, refreshTrigger = 0 }: WalletCardProps) {
   const [usdcBalance, setUsdcBalance] = useState<string | null>(null);
   const [xlmBalance, setXlmBalance] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchBalance() {
-      const horizonBase =
-        STELLAR_NETWORK === "testnet"
-          ? "https://horizon-testnet.stellar.org"
-          : "https://horizon.stellar.org";
+  const fetchBalance = useCallback(async () => {
+    const horizonBase =
+      STELLAR_NETWORK === "testnet"
+        ? "https://horizon-testnet.stellar.org"
+        : "https://horizon.stellar.org";
 
-      try {
-        const res = await fetch(
-          `${horizonBase}/accounts/${STELLAR_PUBLIC_KEY}`
-        );
-        if (!res.ok) throw new Error(`Horizon returned ${res.status}`);
+    try {
+      const res = await fetch(
+        `${horizonBase}/accounts/${STELLAR_PUBLIC_KEY}`
+      );
+      if (!res.ok) throw new Error(`Horizon returned ${res.status}`);
 
-        const data = await res.json();
-        const balances: Array<{
-          asset_type: string;
-          asset_code?: string;
-          balance: string;
-        }> = data.balances;
+      const data = await res.json();
+      const balances: Array<{
+        asset_type: string;
+        asset_code?: string;
+        balance: string;
+      }> = data.balances;
 
-        const usdc = balances.find((b) => b.asset_code === "USDC");
-        const xlm = balances.find((b) => b.asset_type === "native");
+      const usdc = balances.find((b) => b.asset_code === "USDC");
+      const xlm = balances.find((b) => b.asset_type === "native");
 
-        setUsdcBalance(usdc?.balance ?? "0");
-        setXlmBalance(xlm?.balance ?? "0");
-        setError(null);
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : String(err);
-        console.error("Failed to fetch Stellar balance:", msg);
-        setError("Could not load wallet");
-      } finally {
-        setLoading(false);
-      }
+      setUsdcBalance(usdc?.balance ?? "0");
+      setXlmBalance(xlm?.balance ?? "0");
+      setError(null);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error("Failed to fetch Stellar balance:", msg);
+      setError("Could not load wallet");
+    } finally {
+      setLoading(false);
     }
-
-    fetchBalance();
-    const interval = setInterval(fetchBalance, 30_000);
-    return () => clearInterval(interval);
   }, []);
+
+  // Poll balance every 5s
+  useEffect(() => {
+    fetchBalance();
+    const interval = setInterval(fetchBalance, 5_000);
+    return () => clearInterval(interval);
+  }, [fetchBalance]);
+
+  // Immediate refresh when a new transaction arrives
+  useEffect(() => {
+    if (refreshTrigger > 0) {
+      // Small delay to let Stellar ledger settle
+      const timeout = setTimeout(fetchBalance, 1_500);
+      return () => clearTimeout(timeout);
+    }
+  }, [refreshTrigger, fetchBalance]);
 
   const usdcNum = Number(usdcBalance ?? 0);
   const isLow = usdcNum < LOW_BALANCE_THRESHOLD && usdcNum > 0;

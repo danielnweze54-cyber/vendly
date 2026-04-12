@@ -7,9 +7,10 @@ import {
   getConversationHistory,
   logTransaction,
 } from "../db/supabase.js";
-import { getAgentResponse } from "../agent/sales-agent.js";
 import { getCatalogData } from "../services/catalog.js";
 import { getWalletBalance } from "../services/wallet.js";
+import { fetchWithPayment, extractTxHash } from "../x402/client.js";
+import { SALES_SYSTEM_PROMPT } from "../agent/prompts.js";
 
 export const bot = new Bot(env.TELEGRAM_BOT_TOKEN);
 
@@ -110,22 +111,61 @@ bot.on("message:text", async (ctx) => {
     // Get catalog data (via x402 catalog-service with Supabase fallback)
     const catalogData = await getCatalogData();
 
-    // Call Claude sales agent
-    console.log(`[BOT] Calling Claude...`);
-    const reply = await getAgentResponse(history, userMessage, catalogData);
+    // Build system prompt with injected catalog
+    const systemPrompt = SALES_SYSTEM_PROMPT.replace("{catalogData}", catalogData);
+
+    // Build messages array: existing history + new user message
+    const historyMsgs = history
+      .filter((m) => m.role === "user" || m.role === "assistant")
+      .map((m) => ({ role: m.role as "user" | "assistant", content: m.content }));
+
+    const messages = [...historyMsgs, { role: "user" as const, content: userMessage }];
+
+    // Merge consecutive same-role messages (Claude requirement)
+    const merged: Array<{ role: "user" | "assistant"; content: string }> = [];
+    for (const msg of messages) {
+      const last = merged[merged.length - 1];
+      if (last && last.role === msg.role) {
+        last.content += "\n" + msg.content;
+      } else {
+        merged.push({ ...msg });
+      }
+    }
+    if (merged.length > 0 && merged[0].role !== "user") {
+      merged.shift();
+    }
+
+    // Call inference through x402-protected endpoint (real on-chain payment)
+    console.log(`[BOT] Calling inference via x402...`);
+    const inferenceUrl = `${env.BACKEND_URL}/api/inference`;
+    const inferenceRes = await fetchWithPayment(inferenceUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: merged, system: systemPrompt }),
+    });
+
+    if (!inferenceRes.ok) {
+      throw new Error(`Inference endpoint returned ${inferenceRes.status}`);
+    }
+
+    const inferenceData = await inferenceRes.json() as { response: string; usage: { input_tokens: number; output_tokens: number } };
+    const reply = inferenceData.response;
     console.log(`[BOT] Claude replied (${reply.length} chars)`);
+
+    // Extract real Stellar TX hash from x402 payment
+    const txHash = extractTxHash(inferenceRes);
 
     // Save assistant response
     await saveMessage(conversation.id, "assistant", reply);
 
-    // Log inference transaction (Claude API call)
+    // Log inference transaction with real Stellar TX hash
     await logTransaction({
       businessId,
       conversationId: conversation.id,
       service: "inference",
       endpoint: "/api/inference",
       amountUsdc: 0.005,
-      stellarTxHash: "x402-auto",
+      stellarTxHash: txHash,
     });
 
     await ctx.reply(reply);

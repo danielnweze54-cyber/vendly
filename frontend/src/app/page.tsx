@@ -6,7 +6,7 @@ import ConversationStats from "./components/ConversationStats";
 import { useTransactionFeed } from "@/hooks/useTransactionFeed";
 
 export default function Dashboard() {
-  const { transactions, totalSpent, isConnected } = useTransactionFeed();
+  const { transactions, totalSpent, isConnected, refreshTrigger } = useTransactionFeed();
 
   const txCount = transactions.length;
   const inferenceCount = transactions.filter(
@@ -46,7 +46,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Wallet Card */}
           <div className="md:col-span-1">
-            <WalletCard totalSpent={totalSpent} />
+            <WalletCard totalSpent={totalSpent} refreshTrigger={refreshTrigger} />
           </div>
 
           {/* Stats Cards */}

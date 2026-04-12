@@ -18,7 +18,7 @@ const LOW_BALANCE_THRESHOLD = 0.5;
 // Cached balance to avoid hammering Horizon
 let _cachedBalance: WalletBalance | null = null;
 let _balanceCacheTime = 0;
-const BALANCE_CACHE_TTL = 30_000; // 30 seconds
+const BALANCE_CACHE_TTL = 5_000; // 5 seconds — fast refresh for demo
 
 /**
  * Fetch the agent's USDC and XLM balance from Stellar Horizon.

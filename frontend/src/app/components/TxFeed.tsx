@@ -95,7 +95,7 @@ export default function TxFeed({ transactions, isConnected }: TxFeedProps) {
                   </span>
                 </div>
               </div>
-              {tx.stellar_tx_hash && tx.stellar_tx_hash !== "x402-auto" && (
+              {tx.stellar_tx_hash && !tx.stellar_tx_hash.startsWith("x402-") && !tx.stellar_tx_hash.startsWith("failed-") && tx.stellar_tx_hash !== "pending" && (
                 <p className="text-xs text-gray-400 font-mono mt-1 truncate">
                   TX: {tx.stellar_tx_hash}
                 </p>

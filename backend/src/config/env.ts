@@ -38,4 +38,5 @@ export const env = {
   PORT: Number(optional("PORT", "8080")),
   NODE_ENV: optional("NODE_ENV", "development"),
   FRONTEND_URL: optional("FRONTEND_URL", "http://localhost:3000"),
+  BACKEND_URL: optional("BACKEND_URL", `http://localhost:${optional("PORT", "8080")}`),
 } as const;

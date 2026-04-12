@@ -1,4 +1,4 @@
-import { fetchWithPayment } from "../x402/client.js";
+import { fetchWithPayment, extractTxHash } from "../x402/client.js";
 import { supabase } from "../db/supabase.js";
 import { logTransaction, getDemoBusinessId } from "../db/supabase.js";
 import { env } from "../config/env.js";
@@ -34,6 +34,9 @@ async function fetchProductsFromCatalogService(query?: string): Promise<Product[
     }
     const data = await res.json() as { products: Product[] };
 
+    // Extract real Stellar TX hash from x402 payment response
+    const txHash = extractTxHash(res);
+
     // Log the x402 transaction
     const businessId = await getDemoBusinessId();
     await logTransaction({
@@ -41,7 +44,7 @@ async function fetchProductsFromCatalogService(query?: string): Promise<Product[
       service: "catalog",
       endpoint: "/api/products",
       amountUsdc: 0.001,
-      stellarTxHash: "x402-auto",
+      stellarTxHash: txHash,
     });
 
     return data.products;
