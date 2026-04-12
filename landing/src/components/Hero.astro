@@ -1,6 +1,25 @@
 ---
 ---
 
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="/" class="logo">vendly</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#pricing-model">Pay Per Use</a></li>
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#technology">Technology</a></li>
+      <li><a href="https://t.me/vendly_sales_bot" class="nav-cta" target="_blank" rel="noopener">Try It Free</a></li>
+    </ul>
+  </div>
+</nav>
+
 <section class="hero">
   <div class="container hero-inner">
     <div class="hero-content">
@@ -17,6 +36,7 @@
       <div class="hero-ctas">
         <a href="https://t.me/vendly_sales_bot" class="btn btn-primary" target="_blank" rel="noopener">Try It Free</a>
         <a href="https://vendly-rosy.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener">Watch the Money Flow</a>
+        <span class="btn btn-coming-soon" aria-disabled="true">Get Your Own Bot <span class="badge-soon">Coming Soon</span></span>
       </div>
     </div>
   </div>
@@ -32,9 +52,145 @@
     }
     if (value >= 1) value = 0;
   }, 800);
+
+  // Mobile nav toggle
+  const toggle = document.getElementById('nav-toggle');
+  const links = document.getElementById('nav-links');
+  toggle?.addEventListener('click', () => {
+    links?.classList.toggle('open');
+    toggle.classList.toggle('active');
+  });
+
+  // Close mobile nav on link click
+  links?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      links.classList.remove('open');
+      toggle?.classList.remove('active');
+    });
+  });
 </script>
 
 <style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 16px 0;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .logo:hover {
+    color: var(--purple-light);
+  }
+
+  .nav-links {
+    display: none;
+    list-style: none;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+  }
+
+  .nav-links li a {
+    font-size: 0.875rem;
+    color: var(--gray-400);
+    transition: color 0.2s;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: block;
+  }
+
+  .nav-links li a:hover {
+    color: var(--white);
+  }
+
+  .nav-cta {
+    background: var(--purple) !important;
+    color: var(--white) !important;
+    font-weight: 600 !important;
+    padding: 8px 18px !important;
+    border-radius: 8px !important;
+    font-size: 0.85rem !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    background: var(--purple-dark) !important;
+  }
+
+  /* Hamburger */
+  .nav-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .nav-toggle span {
+    width: 22px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  @media (min-width: 768px) {
+    .nav-links {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .nav-toggle {
+      display: none;
+    }
+  }
+
   .hero {
     min-height: 100vh;
     display: flex;
@@ -119,5 +275,22 @@
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
+  }
+
+  .btn-coming-soon {
+    background: var(--navy-lighter);
+    color: var(--gray-400);
+    cursor: default;
+    gap: 8px;
+  }
+
+  .badge-soon {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(124, 58, 237, 0.25);
+    color: var(--purple-light);
+    padding: 2px 8px;
+    border-radius: 4px;
   }
 </style>
