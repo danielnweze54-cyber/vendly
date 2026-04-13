@@ -4,10 +4,10 @@ import { logTransaction, getDemoBusinessId } from "../db/supabase.js";
 import { env } from "../config/env.js";
 import { classifyPaymentError, PaymentError } from "./wallet.js";
 
-// Cached catalog string — refreshed every 5 minutes
+// Cached catalog string — refreshed every 30 seconds (short for demo visibility)
 let _cachedCatalog: string | null = null;
 let _cacheTimestamp = 0;
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL_MS = 30 * 1000; // 30 seconds
 
 interface Product {
   name: string;
